@@ -44,6 +44,8 @@ public class Task {
     @JoinColumn(name = "task_id")
     private List<Notes> notes;
 
+
+
     public void addNotes(Notes note){
         if(notes==null)
             notes=new ArrayList<>();

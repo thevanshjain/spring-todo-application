@@ -28,6 +28,9 @@ public class Notes {
     @Column(name = "modifiedat")
     private Date modifiedAt;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,CascadeType.REFRESH})
+    @JoinColumn(name = "task_id")
+    private Task tasksId;
 
 
     public Notes(String description, Date createdAt, Date modifiedAt) {
