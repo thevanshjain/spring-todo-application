@@ -3,7 +3,10 @@ package com.vansh.spring.demo.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.*;
+import java.sql.Date;
+
 
 @Data
 @NoArgsConstructor
@@ -19,7 +22,17 @@ public class Notes {
     @Column(name = "description")
     private String description;
 
-    public Notes(String description) {
+    @Column(name = "createdat")
+    private Date createdAt;
+
+    @Column(name = "modifiedat")
+    private Date modifiedAt;
+
+
+
+    public Notes(String description, Date createdAt, Date modifiedAt) {
         this.description = description;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
 }

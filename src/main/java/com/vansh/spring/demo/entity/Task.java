@@ -25,13 +25,19 @@ public class Task {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "startdate")
+    private Date startDate;
 
-    public Task(String title, String status, Date date) {
+    @Column(name = "enddate")
+    private Date endDate;
+
+    public Task(String title, String status, String startDateString, String endDateString) {
         this.title = title;
         this.status = status;
-        this.date = date;
+//        this.startDate = Date.valueOf(startDateString);
+//        this.endDate = Date.valueOf(endDateString);
+        this.startDate = null;
+        this.endDate = null;
     }
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -45,4 +51,27 @@ public class Task {
 
     }
 
+
+    public void setStartDate(String startDateString) {
+        this.startDate = Date.valueOf(startDateString);
+    }
+
+    public void setEndDate(String endDateString) {
+        this.endDate = Date.valueOf(endDateString);
+    }
+
+
+    public String getStartDate() {
+        if(startDate==null)
+            return "";
+
+        return startDate.toString();
+    }
+
+    public String getEndDate() {
+
+        if(endDate==null)
+            return "";
+        return endDate.toString();
+    }
 }
