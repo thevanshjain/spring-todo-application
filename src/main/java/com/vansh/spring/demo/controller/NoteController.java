@@ -1,56 +1,60 @@
 package com.vansh.spring.demo.controller;
 
 import com.vansh.spring.demo.entity.Notes;
+import com.vansh.spring.demo.entity.Task;
 import com.vansh.spring.demo.service.NotesService;
+import com.vansh.spring.demo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+
+@Component
 @RequestMapping("/note")
 public class NoteController {
 
-    private NotesService noteService;
-
     @Autowired
-    public NoteController(NotesService noteService) {
-        this.noteService = noteService;
-
-    }
-
+    private NotesService noteService;
+    @Autowired
+    private TaskService taskService;
 
     @GetMapping("/showFormForNotes")
     public String showFormForNotes(@RequestParam("taskId") int taskId, Model model){
+
+        System.out.println(taskService);
+        System.out.println(noteService);
         Notes note=new Notes();
-        model.addAttribute("note",note);
+        model.addAttribute("notes",note);
         model.addAttribute("taskId",taskId);
+        System.out.println("In show");
         return "notes/form-note";
     }
 
     @PostMapping("/saveNote")
-    public String saveEmployee(@ModelAttribute("note") Notes note){
+    public String saveNote(@RequestParam int taskId,@ModelAttribute("note") Notes note){
+        Task task= taskService.findById(taskId);
+        task.addNotes(note);
+       // note.setTheTask(task);
 
-        noteService.save(note);
-
-        return "redirect:/task/list";
+        taskService.save(task);
+       // noteService.save(note);
+        return "redirect:/task/showNotes?id="+ taskId;
 
     }
-//<a th:href="@{/note/showFormForUpdateNote(id=${currentNote.id})}"
-//    class="btn btn-info btn-sm">
-//    Update
-//            </a>
-    @GetMapping("/showFormForUpdateNote")
-    public String showFormForUpdateNote(@RequestParam("id") int id,Model model){
+    @GetMapping("/updateNote")
+    public String showFormForUpdateNote(@RequestParam(name = "id") int id,Model model){
 
         Notes note=noteService.findById(id);
-
-        model.addAttribute("taskId",id);
+        model.addAttribute("taskId",note.getTheTask().getId());
         model.addAttribute("notes",note);
 
         return "notes/form-note";
 
     }
+
+
+
 
     @GetMapping("/deleteNote/{id}/{taskId}")
     public String deleteNote(@PathVariable int id,@PathVariable int taskId){

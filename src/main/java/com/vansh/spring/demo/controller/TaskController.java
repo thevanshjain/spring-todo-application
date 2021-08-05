@@ -2,7 +2,6 @@ package com.vansh.spring.demo.controller;
 
 import com.vansh.spring.demo.entity.Notes;
 import com.vansh.spring.demo.entity.Task;
-import com.vansh.spring.demo.service.NotesService;
 import com.vansh.spring.demo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +40,7 @@ public class TaskController {
     }
 
     @PostMapping("/save")
-    public String saveEmployee(@ModelAttribute("task") Task task){
+    public String saveTask(@ModelAttribute("task") Task task){
         taskService.save(task);
 
         return "redirect:/task/list";

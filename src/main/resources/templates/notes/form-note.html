@@ -15,8 +15,10 @@
   <hr>
 
   <p class="h4-mb-4">Save Note</p>
-  <form action="#" th:action="@{/note/saveNote}"
-        th:object="${note}" method="post">
+<!--  <form action="#" th:action="@{/note/saveNote/${taskId}}"-->
+
+  <form action="#" th:action="@{/note/saveNote(taskId=${taskId})}"
+        th:object="${notes}" method="post">
 
     <input type="hidden" th:field="*{id}">
 

@@ -14,6 +14,20 @@
 
     <hr>
     <h4 th:text="${taskName}+'\'s task'"/>
+
+
+    <div th:if="${#lists.isEmpty(notes)}">
+        <h3>NO NOTES YET!</h3>
+        <span> <a th:href="@{/note/showFormForNotes(taskId=${taskId})}" class="btn btn-outline-info btn-lg mb-3">
+        Add Notes
+    </a></span>
+    </div>
+    <!-- ELSE -->
+    <div th:unless="${#lists.isEmpty(notes)}">
+
+
+
+
     <a th:href="@{/task/list}"><button class="btn btn-outline-success  btn-sm mb-3">Back to tasks</button></a>
     <a th:href="@{/note/showFormForNotes(taskId=${taskId})}" class="btn btn-outline-info btn-sm mb-3"  style="float: right;">
         Add Notes
@@ -34,7 +48,7 @@
             <td th:text="${#dates.format(currentNote.createdAt, 'dd-MMM-yyyy')}"/>
             <td th:text="${#dates.format(currentNote.modifiedAt, 'dd-MMM-yyyy')}"/>
             <td>
-                <a th:href="@{/note/showFormForUpdateNote(id=${currentNote.id})}"
+                <a th:href="@{/note/updateNote(id=${currentNote.id})}"
                    class="btn btn-info btn-sm">
                     Update
                 </a>
@@ -48,6 +62,6 @@
         </tbody>
     </table>
 </div>
-
+</div>
 </body>
 </html>

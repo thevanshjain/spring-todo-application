@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Data
@@ -31,26 +32,31 @@ public class Task {
     @Column(name = "enddate")
     private Date endDate;
 
-    public Task(String title, String status, String startDateString, String endDateString) {
+    public Task(String title, String status) {
         this.title = title;
         this.status = status;
-//        this.startDate = Date.valueOf(startDateString);
-//        this.endDate = Date.valueOf(endDateString);
         this.startDate = null;
         this.endDate = null;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "task_id")
+    @OneToMany(mappedBy = "theTask",cascade = CascadeType.ALL)
     private List<Notes> notes;
-
 
 
     public void addNotes(Notes note){
         if(notes==null)
             notes=new ArrayList<>();
-        notes.add(note);
 
+        Iterator<Notes> itr = notes.iterator();
+        while (itr.hasNext()){
+            Notes currentNote = itr.next();
+            if(currentNote.getId()==note.getId()){
+                itr.remove();
+                break;
+            }
+        }
+        notes.add(note);
+        note.setTheTask(this);
     }
 
 

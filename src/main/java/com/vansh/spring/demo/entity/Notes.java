@@ -1,14 +1,18 @@
 package com.vansh.spring.demo.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import javax.persistence.*;
 import java.sql.Date;
 
 
-@Data
+//@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "notes")
@@ -28,14 +32,24 @@ public class Notes {
     @Column(name = "modifiedat")
     private Date modifiedAt;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "task_id")
-    private Task tasksId;
+    private Task theTask;
 
 
     public Notes(String description, Date createdAt, Date modifiedAt) {
         this.description = description;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Notes{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
     }
 }

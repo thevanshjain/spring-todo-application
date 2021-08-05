@@ -49,4 +49,9 @@ public class NotesServiceImpl implements NotesService{
     public void deleteById(int id) {
         notesRepository.deleteById(id);
     }
+
+    public void updateNotes(int id){
+
+    }
+
 }
