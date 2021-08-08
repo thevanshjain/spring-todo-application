@@ -17,7 +17,8 @@
     <h3>Task Management</h3>
     <hr>
 
-    <p class="h4-mb-4">Save task</p>
+    <h5 class="h4-mb-4">Save task</h5>
+    <a th:href="@{/task/list}"><button class="btn btn-secondary btn-sm mb-3" style="float: right;">Back to Tasks</button></a>
     <form action="#" th:action="@{/task/save}"
           th:object="${task}" method="post">
 
@@ -25,35 +26,29 @@
 
         <input type="text" th:field="*{title}"
                class="form-control mb-4 col-4" placeholder="Title">
+        <p th:if="${#fields.hasErrors('*{title}')}" th:errors="*{title}"/>
+
+<!--        <select th:value="${status}">-->
+<!--            <option-->
+<!--                    th:value="${status}"-->
+<!--                    th:text="#{${'On Going'}}">On Going-->
+<!--            </option>-->
+<!--            <option-->
+<!--                    th:value="${status}"-->
+<!--                    th:text="#{${'Not Started'}}">Not Started-->
+<!--            </option>-->
+<!--        </select>-->
         <input type="text" th:field="*{status}"
                class="form-control mb-4 col-4" placeholder="Status">
-<!--            <select th:field="*{status}" >-->
-<!--                <option th:value="'OnGoing'" th:text="On Going"></option>-->
-<!--                <option th:value="'Started'" th:text="Started"></option>-->
-<!--                <option th:value="'Completed'" th:text="Completed"></option>-->
-<!--            </select>-->
         <input type="text" th:field="*{startDate}"
                class="form-control mb-4 col-4" placeholder="Start Date, format: YYYY-MM-DD">
-<!--        <div class="input-group date">-->
-<!--            <input type="text" class="form-control" id="startdate" autocomplete="off" th:field="*{startDate}"/>-->
-<!--            <div class="input-group-append">-->
-<!--                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="input-group date">-->
-<!--            <input type="text" class="form-control" id="enddate" autocomplete="off" th:field="*{endDate}"/>-->
-<!--            <div class="input-group-append">-->
-<!--                <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>-->
-<!--            </div>-->
-<!--        </div>-->
 
         <input type="text" th:field="*{endDate}"
                class="form-control mb-4 col-4" placeholder="End Date, format: YYYY-MM-DD">
-        <input type="hidden" th:field="*{notes}">
+
         <button type="submit" class="btn btn-info col-2">Save</button>
     </form>
     <hr>
-    <a th:href="@{/task/list}">Back to Task</a>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

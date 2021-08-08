@@ -18,21 +18,12 @@
 
     <div th:if="${#lists.isEmpty(notes)}">
         <h3>NO NOTES YET!</h3>
-        <span> <a th:href="@{/note/showFormForNotes(taskId=${taskId})}" class="btn btn-outline-info btn-lg mb-3">
-        Add Notes
-    </a></span>
     </div>
-    <!-- ELSE -->
-    <div th:unless="${#lists.isEmpty(notes)}">
-
-
-
-
     <a th:href="@{/task/list}"><button class="btn btn-outline-success  btn-sm mb-3">Back to tasks</button></a>
     <a th:href="@{/note/showFormForNotes(taskId=${taskId})}" class="btn btn-outline-info btn-sm mb-3"  style="float: right;">
         Add Notes
     </a>
-
+    <div th:unless="${#lists.isEmpty(notes)}">
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>

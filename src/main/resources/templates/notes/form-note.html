@@ -14,8 +14,9 @@
   <h3>Task Management</h3>
   <hr>
 
-  <p class="h4-mb-4">Save Note</p>
-<!--  <form action="#" th:action="@{/note/saveNote/${taskId}}"-->
+  <h5 class="h4-mb-4">Save Note</h5>
+    <a th:href="@{/task/showNotes(id=*{taskId})}"><button class="btn btn-secondary btn-sm mb-3" style="float: right;">Back to Notes</button></a>
+
 
   <form action="#" th:action="@{/note/saveNote(taskId=${taskId})}"
         th:object="${notes}" method="post">
@@ -31,9 +32,9 @@
 
 
     <button type="submit" class="btn btn-info col-2">Save</button>
+
   </form>
-  <hr>
-  <a th:href="@{/task/showNotes(id=*{taskId})}">Back to Notes</a>
+
 </div>
 </body>
 </html>

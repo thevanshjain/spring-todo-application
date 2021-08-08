@@ -1,5 +1,5 @@
 package com.vansh.spring.demo.entity;
-
+import javax.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,43 +13,45 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "task")
-public class Task {
+public class TaskEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
+    @NotEmpty(message = "Task's title cannot be empty")
     @Column(name = "title")
     private String title;
 
+    @NotEmpty(message = "Task's status cannot be empty")
     @Column(name = "status")
     private String status;
 
+    @NotNull(message = "Task's start date cannot be empty")
     @Column(name = "startdate")
     private Date startDate;
 
+    @NotNull(message = "Task's end date cannot be empty")
     @Column(name = "enddate")
     private Date endDate;
 
-    public Task(String title, String status) {
+    public TaskEntity(String title, String status) {
         this.title = title;
         this.status = status;
-        this.startDate = null;
-        this.endDate = null;
     }
 
     @OneToMany(mappedBy = "theTask",cascade = CascadeType.ALL)
-    private List<Notes> notes;
+    private List<NoteEntity> notes;
 
 
-    public void addNotes(Notes note){
+    public void addNotes(NoteEntity note){
         if(notes==null)
             notes=new ArrayList<>();
 
-        Iterator<Notes> itr = notes.iterator();
+        Iterator<NoteEntity> itr = notes.iterator();
         while (itr.hasNext()){
-            Notes currentNote = itr.next();
+            NoteEntity currentNote = itr.next();
             if(currentNote.getId()==note.getId()){
                 itr.remove();
                 break;
@@ -59,27 +61,4 @@ public class Task {
         note.setTheTask(this);
     }
 
-
-    public void setStartDate(String startDateString) {
-        this.startDate = Date.valueOf(startDateString);
-    }
-
-    public void setEndDate(String endDateString) {
-        this.endDate = Date.valueOf(endDateString);
-    }
-
-
-    public String getStartDate() {
-        if(startDate==null)
-            return "";
-
-        return startDate.toString();
-    }
-
-    public String getEndDate() {
-
-        if(endDate==null)
-            return "";
-        return endDate.toString();
-    }
 }

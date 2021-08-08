@@ -1,10 +1,15 @@
 package com.vansh.spring.demo.service;
 
 import com.vansh.spring.demo.dao.TaskRepository;
-import com.vansh.spring.demo.entity.Task;
+import com.vansh.spring.demo.dto.Note;
+import com.vansh.spring.demo.dto.Task;
+import com.vansh.spring.demo.entity.NoteEntity;
+import com.vansh.spring.demo.entity.TaskEntity;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,28 +25,48 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
         public List<Task> findAll() {
-        return taskRepository.findAll();
+        List<Task> tasks= new ArrayList<>();
+        for(TaskEntity taskEntity : taskRepository.findAll()){
+           Task task = new Task();
+           BeanUtils.copyProperties(taskEntity,task);
+            tasks.add(task);
+        }
+        return tasks;
     }
 
     @Override
     public Task findById(int id) {
-        Optional<Task> result=taskRepository.findById(id);
+        Optional<TaskEntity> result=taskRepository.findById(id);
 
-        Task task=null;
+        TaskEntity taskEntity;
         if (result.isPresent()) {
-            task=result.get();
+            taskEntity=result.get();
         }
         else{
             throw new RuntimeException("Invalid tasks id -- "+id);
         }
-
+        Task task = new Task();
+        List<Note> notes = new ArrayList<>();
+        BeanUtils.copyProperties(taskEntity,task);
+        for (NoteEntity noteEntity : taskEntity.getNotes()){
+            Note note = new Note();
+            BeanUtils.copyProperties(noteEntity, note);
+            notes.add(note);
+        }
+        task.setTaskNotes(notes);
         return task;
     }
 
     @Override
-    public void save(Task task) {
-        taskRepository.save(task);
-
+    public void save(Task task, Note note) {
+        TaskEntity taskEntity = new TaskEntity();
+        BeanUtils.copyProperties(task,taskEntity);
+        if (null != note) {
+            NoteEntity noteEntity = new NoteEntity();
+            BeanUtils.copyProperties(note, noteEntity);
+            taskEntity.addNotes(noteEntity);
+        }
+        taskRepository.save(taskEntity);
     }
 
     @Override

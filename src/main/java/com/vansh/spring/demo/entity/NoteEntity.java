@@ -1,6 +1,5 @@
 package com.vansh.spring.demo.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +15,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "notes")
-public class Notes {
+public class NoteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +33,10 @@ public class Notes {
 
     @ManyToOne
     @JoinColumn(name = "task_id")
-    private Task theTask;
+    private TaskEntity theTask;
 
 
-    public Notes(String description, Date createdAt, Date modifiedAt) {
+    public NoteEntity(String description, Date createdAt, Date modifiedAt) {
         this.description = description;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;

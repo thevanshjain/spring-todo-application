@@ -18,14 +18,13 @@
 
         <div th:if="${#lists.isEmpty(tasks)}">
             <h3>NO TASK YET!</h3>
-            <span> <a th:href="@{/task/showFormForAdd}" class="btn btn-outline-info btn-lg mb-3">
-        Add Task
-            </a></span>
+
         </div>
-        <div th:unless="${#lists.isEmpty(tasks)}">
         <a th:href="@{/task/showFormForAdd}" class="btn btn-primary btn-sm mb-3">
             Add Task
         </a>
+        <div th:unless="${#lists.isEmpty(tasks)}">
+
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
@@ -40,34 +39,15 @@
         <tbody>
                 <tr th:each="currentTask:${tasks}">
                         <td th:text="${currentTask.title}" />
+
                         <td th:text="${currentTask.status}" />
-                       <td th:text="${currentTask.startDate}"/>
-                       <td th:text="${currentTask.endDate}"/>
+                         <td th:text="${#dates.format(currentTask.startDate, 'dd-MMM-yyyy')}"/>
+                        <td th:text="${#dates.format(currentTask.endDate, 'dd-MMM-yyyy')}"/>
                          <td>
                              <a th:href="@{/task/showNotes(id=${currentTask.id})}"
                                 class="btn btn-secondary btn-sm">
                                  View
                              </a>
-<!--                             <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" th:data-bs-target="model+${currentTask.id}">-->
-<!--                                 View-->
-<!--                             </button>-->
-<!--                             <div class="modal fade" th:id="model+${currentTask.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
-<!--                                 <div class="modal-dialog">-->
-<!--                                     <div class="modal-content">-->
-<!--                                         <div class="modal-header">-->
-<!--                                             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>-->
-<!--                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                                         </div>-->
-<!--                                         <div class="modal-body">-->
-<!--                                             ...-->
-<!--                                         </div>-->
-<!--                                         <div class="modal-footer">-->
-<!--                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<!--                                             <button type="button" class="btn btn-primary">Save changes</button>-->
-<!--                                         </div>-->
-<!--                                     </div>-->
-<!--                                 </div>-->
-<!--                             </div>-->
                          </td>
                     <td>
                         <a th:href="@{/task/showFormForUpdate(id=${currentTask.id})}"

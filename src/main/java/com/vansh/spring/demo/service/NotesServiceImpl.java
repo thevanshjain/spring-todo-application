@@ -1,8 +1,9 @@
 package com.vansh.spring.demo.service;
 
 import com.vansh.spring.demo.dao.NotesRepository;
-import com.vansh.spring.demo.entity.Notes;
-import com.vansh.spring.demo.entity.Task;
+import com.vansh.spring.demo.dto.Note;
+import com.vansh.spring.demo.entity.NoteEntity;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,38 +21,25 @@ public class NotesServiceImpl implements NotesService{
     }
 
     @Override
-    public List<Notes> findAll() {
-        return notesRepository.findAll();
-    }
+    public Note findById(int id) {
+    Note note = new Note();
+        Optional<NoteEntity> result=notesRepository.findById(id);
 
-    @Override
-    public Notes findById(int id) {
-
-        Optional<Notes> result=notesRepository.findById(id);
-
-        Notes note=null;
+        NoteEntity noteEntity;
         if (result.isPresent()) {
-            note=result.get();
+            noteEntity=result.get();
         }
         else{
             throw new RuntimeException("Invalid Notes id -- "+id);
         }
-
+        BeanUtils.copyProperties(noteEntity,note);
+        note.setTaskId(noteEntity.getTheTask().getId());
         return note;
-    }
-
-    @Override
-    public void save(Notes note) {
-        notesRepository.save(note);
     }
 
     @Override
     public void deleteById(int id) {
         notesRepository.deleteById(id);
-    }
-
-    public void updateNotes(int id){
-
     }
 
 }

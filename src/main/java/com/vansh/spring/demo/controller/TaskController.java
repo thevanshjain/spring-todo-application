@@ -1,26 +1,24 @@
 package com.vansh.spring.demo.controller;
 
-import com.vansh.spring.demo.entity.Notes;
-import com.vansh.spring.demo.entity.Task;
+import com.vansh.spring.demo.dto.Note;
+import com.vansh.spring.demo.dto.Task;
 import com.vansh.spring.demo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/task")
 public class TaskController {
 
+    @Autowired
     private TaskService taskService;
 
-    @Autowired
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-
-    }
 
     @GetMapping("/list")
     public String listTasks(Model model){
@@ -33,26 +31,35 @@ public class TaskController {
      @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model model){
 
-        Task task=new Task();
+         Task task=new Task();
         model.addAttribute("task",task);
         return "tasks/form-task";
 
     }
 
     @PostMapping("/save")
-    public String saveTask(@ModelAttribute("task") Task task){
-        taskService.save(task);
-
-        return "redirect:/task/list";
-
+    public String saveTask(@Valid @ModelAttribute("task") Task task, BindingResult theBindingResult){
+        if(theBindingResult.hasErrors()){
+            return "tasks/form-task";
+        }
+        else {
+            taskService.save(task, null);
+            return "redirect:/task/list";
+        }
     }
 
     @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("id") int id,Model model){
 
+    try {
         Task task=taskService.findById(id);
         model.addAttribute("task",task);
         return "tasks/form-task";
+    }
+    catch (RuntimeException exc){
+        model.addAttribute("message",exc.getMessage());
+        return "exception/invalidId";
+    }
 
     }
 
@@ -66,12 +73,18 @@ public class TaskController {
     @GetMapping("/showNotes")
     public String showNotes(@RequestParam("id") int taskId, Model model){
 
-        Task task=taskService.findById(taskId);
-        List<Notes> notesList=task.getNotes();
-        model.addAttribute("taskName",task.getTitle());
-        model.addAttribute("notes",notesList);
-        model.addAttribute("taskId",taskId);
-        return "notes/list-notes";
+        try {
 
+            Task task = taskService.findById(taskId);
+            List<Note> noteList = task.getTaskNotes();
+            model.addAttribute("taskName", task.getTitle());
+            model.addAttribute("notes", noteList);
+            model.addAttribute("taskId", taskId);
+            return "notes/list-notes";
+        }
+        catch (RuntimeException exc){
+            model.addAttribute("message",exc.getMessage());
+            return "exception/invalidId";
+        }
     }
 }
