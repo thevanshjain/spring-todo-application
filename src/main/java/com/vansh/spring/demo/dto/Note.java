@@ -8,6 +8,7 @@ import java.sql.Date;
 public class Note {
 
     private int id;
+
     private String description;
     private Date createdAt;
     private Date modifiedAt;

@@ -11,9 +11,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" integrity="sha512-OdEXQYCOldjqUEsuMKsZRj93Ht23QRlhIb8E/X0sbwZhme8eUw6g8q7AdxGJKakcBbv7+/PX0Gc2btf7Ru8cZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <title>Add task</title>
+
 </head>
 <body>
 <div class="container">
+
     <h3>Task Management</h3>
     <hr>
 
@@ -25,31 +27,26 @@
         <input type="hidden" th:field="*{id}">
 
         <input type="text" th:field="*{title}"
-               class="form-control mb-4 col-4" placeholder="Title">
-        <p th:if="${#fields.hasErrors('*{title}')}" th:errors="*{title}"/>
+               class="form-control mb-4 col-4" placeholder="Title" id="title" th:required="required">
+        <select th:field="*{status}" class="form-control mb-4 col-4">
+            <option th:each="p : ${listStatus}" th:value="${p}" th:text="${p}" />
+        </select>
+        <input type="date" th:field="*{startDate}" class="form-control mb-4 col-4" th:required="required" />
+        <input type="date" th:field="*{endDate}"   class="form-control mb-4 col-4" th:required="required"/>
 
-<!--        <select th:value="${status}">-->
-<!--            <option-->
-<!--                    th:value="${status}"-->
-<!--                    th:text="#{${'On Going'}}">On Going-->
-<!--            </option>-->
-<!--            <option-->
-<!--                    th:value="${status}"-->
-<!--                    th:text="#{${'Not Started'}}">Not Started-->
-<!--            </option>-->
-<!--        </select>-->
-        <input type="text" th:field="*{status}"
-               class="form-control mb-4 col-4" placeholder="Status">
-        <input type="text" th:field="*{startDate}"
-               class="form-control mb-4 col-4" placeholder="Start Date, format: YYYY-MM-DD">
-
-        <input type="text" th:field="*{endDate}"
-               class="form-control mb-4 col-4" placeholder="End Date, format: YYYY-MM-DD">
-
-        <button type="submit" class="btn btn-info col-2">Save</button>
+        <button type="submit" th:onclick="validate()" class="btn btn-info col-2">Save</button>
     </form>
     <hr>
 </div>
+<script>
+function validate(){
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+    if(startDate>endDate)
+    alert("Start Date must be before end date");
+
+}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

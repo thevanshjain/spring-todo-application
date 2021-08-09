@@ -2,6 +2,7 @@ package com.vansh.spring.demo.entity;
 import javax.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -20,20 +21,20 @@ public class TaskEntity {
     @Column(name = "id")
     private int id;
 
-    @NotEmpty(message = "Task's title cannot be empty")
+    @NotEmpty
     @Column(name = "title")
     private String title;
 
-    @NotEmpty(message = "Task's status cannot be empty")
+
     @Column(name = "status")
     private String status;
 
-    @NotNull(message = "Task's start date cannot be empty")
     @Column(name = "startdate")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date startDate;
 
-    @NotNull(message = "Task's end date cannot be empty")
     @Column(name = "enddate")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date endDate;
 
     public TaskEntity(String title, String status) {

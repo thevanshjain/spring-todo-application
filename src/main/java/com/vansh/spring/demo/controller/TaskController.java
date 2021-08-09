@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -32,14 +33,19 @@ public class TaskController {
     public String showFormForAdd(Model model){
 
          Task task=new Task();
+         List<String> listStatus = Arrays.asList("Not Started", "Ongoing", "Completed");
+         model.addAttribute("listStatus", listStatus);
         model.addAttribute("task",task);
         return "tasks/form-task";
 
     }
 
     @PostMapping("/save")
-    public String saveTask(@Valid @ModelAttribute("task") Task task, BindingResult theBindingResult){
-        if(theBindingResult.hasErrors()){
+    public String saveTask(@Valid @ModelAttribute("task") Task task, BindingResult theBindingResult,Model model){
+//
+        if(theBindingResult.hasErrors() || task.getStartDate().after(task.getEndDate())){
+            List<String> listStatus = Arrays.asList("Not Started", "Ongoing", "Completed");
+            model.addAttribute("listStatus", listStatus);
             return "tasks/form-task";
         }
         else {
@@ -53,6 +59,8 @@ public class TaskController {
 
     try {
         Task task=taskService.findById(id);
+        List<String> listStatus = Arrays.asList("Not Started", "Ongoing", "Completed");
+        model.addAttribute("listStatus", listStatus);
         model.addAttribute("task",task);
         return "tasks/form-task";
     }

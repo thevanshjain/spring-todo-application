@@ -3,6 +3,7 @@ package com.vansh.spring.demo.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import javax.persistence.*;
@@ -26,9 +27,11 @@ public class NoteEntity {
     private String description;
 
     @Column(name = "createdat")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date createdAt;
 
     @Column(name = "modifiedat")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date modifiedAt;
 
     @ManyToOne

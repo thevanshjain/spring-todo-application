@@ -1,7 +1,9 @@
 package com.vansh.spring.demo.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -12,16 +14,14 @@ public class Task {
 
     private int id;
 
-    @NotEmpty(message = "Task's title cannot be empty")
+    @NotNull
     private String title;
-
-    @NotEmpty(message = "Task's status cannot be empty")
+    @NotNull
     private String status;
 
-    @NotNull(message = "Task's start date cannot be empty")
+    @NotNull
     private Date startDate;
-
-    @NotNull(message = "Task's end date cannot be empty")
+    @NotNull
     private Date endDate;
 
     private List<Note> taskNotes;
