@@ -20,9 +20,21 @@
         <h3>NO NOTES YET!</h3>
     </div>
     <a th:href="@{/task/list}"><button class="btn btn-outline-success  btn-sm mb-3">Back to tasks</button></a>
-    <a th:href="@{/note/showFormForNotes(taskId=${taskId})}" class="btn btn-outline-info btn-sm mb-3"  style="float: right;">
-        Add Notes
-    </a>
+    <div style="float: right">
+        <a th:href="@{/note/showFormForNotes(taskId=${taskId})}" class="btn btn-outline-info btn-sm mb-3"  >
+            Add Notes
+        </a>
+
+        <form action="#" th:action="@{/logout}" style="display: inline"
+              method="POST">
+
+            <input type="submit" value="Logout" class="btn btn-outline-primary btn-sm mb-3" />
+
+        </form>
+
+    </div>
+
+
     <div th:unless="${#lists.isEmpty(notes)}">
     <table class="table table-bordered table-striped">
         <thead class="table-dark">

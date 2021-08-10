@@ -13,12 +13,8 @@ import java.util.Optional;
 @Service
 public class NotesServiceImpl implements NotesService{
 
-    private NotesRepository notesRepository;
-
     @Autowired
-    public NotesServiceImpl(NotesRepository notesRepository) {
-        this.notesRepository = notesRepository;
-    }
+    private NotesRepository notesRepository;
 
     @Override
     public Note findById(int id) {

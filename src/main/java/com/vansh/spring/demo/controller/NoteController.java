@@ -7,10 +7,8 @@ import com.vansh.spring.demo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 
 @Component
@@ -43,7 +41,7 @@ public class NoteController {
 
             else{
             Task task = taskService.findById(taskId);
-            //task.addNotes(note);
+
             taskService.save(task, note);
             return "redirect:/task/showNotes?id=" + taskId;
             }
