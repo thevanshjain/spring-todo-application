@@ -4,11 +4,14 @@ import com.vansh.spring.demo.dto.Note;
 import com.vansh.spring.demo.dto.Task;
 import com.vansh.spring.demo.service.NotesService;
 import com.vansh.spring.demo.service.TaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 
 
 @Component
@@ -20,10 +23,14 @@ public class NoteController {
     @Autowired
     private TaskService taskService;
 
+    private Logger logger = LoggerFactory.getLogger(NoteController.class);
+
     @GetMapping("/showFormForNotes")
     public String showFormForNotes(@RequestParam("taskId") int taskId, Model model){
 
             Note note = new Note();
+            note.setCreatedAt(new Date(System.currentTimeMillis()));
+           logger.info(String.valueOf(new Date(System.currentTimeMillis())));
             model.addAttribute("notes", note);
             model.addAttribute("taskId", taskId);
             return "notes/form-note";
@@ -33,18 +40,12 @@ public class NoteController {
     @PostMapping("/saveNote")
     public String saveNote(@ModelAttribute("note") Note note,@RequestParam int taskId, Model model){
         try {
-            if(note.getCreatedAt().after(note.getModifiedAt())){
-                model.addAttribute("notes",note);
-                model.addAttribute("taskId", taskId);
-                return "notes/form-note";
-            }
 
-            else{
             Task task = taskService.findById(taskId);
-
+            note.setModifiedAt(new java.sql.Date(System.currentTimeMillis()));
             taskService.save(task, note);
             return "redirect:/task/showNotes?id=" + taskId;
-            }
+
         }
         catch (RuntimeException exc){
             model.addAttribute("message",exc.getMessage());
@@ -59,6 +60,7 @@ public class NoteController {
     public String showFormForUpdateNote(@RequestParam(name = "id") int id,Model model){
     try {
         Note note = noteService.findById(id);
+        logger.info("Updating...  "+String.valueOf(note.getCreatedAt()));
         model.addAttribute("taskId", note.getTaskId());
         model.addAttribute("notes", note);
 

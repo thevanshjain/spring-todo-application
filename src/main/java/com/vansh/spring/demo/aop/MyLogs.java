@@ -23,10 +23,6 @@ public class MyLogs {
 
     }
 
-
-
-
-
 }
 
 
