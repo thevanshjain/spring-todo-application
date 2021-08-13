@@ -10,22 +10,21 @@ DROP TABLE IF EXISTS `task`;
 
 CREATE TABLE `task` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(128) not NULL,
-  `status` varchar(20) not null,
-  `startdate` date not NULL,
-  `enddate` date not NULL,
-   PRIMARY KEY (`id`),
-   UNIQUE KEY `TITLE_UNIQUE` (`title`) 
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+  `title` varchar(128) not null,
+  `status` varchar(20) ,
+  `startdate` date ,
+  `enddate` date ,
+   PRIMARY KEY (`id`)
+);
 
 
 DROP TABLE IF EXISTS `notes`;
 
 CREATE TABLE `notes` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(256) DEFAULT NULL,
-  `createdAt` date not NULL,
-  `modifiedAt` date not NULL,
+  `description` varchar(256) not NULL,
+  `createdAt` date ,
+  `modifiedAt` date,
   `task_id` int DEFAULT NULL,
 
   PRIMARY KEY (`id`),
@@ -37,10 +36,10 @@ CREATE TABLE `notes` (
   REFERENCES `task` (`id`) 
 
   ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-insert into task values(1,"Java","On Going","2021-08-02","2021-08-04");
+);
+insert into task values(1,"Java","Ongoing","2021-08-02","2021-08-04");
 insert into task values(2,"Collections","Not Started","2021-08-15","2021-08-24");
-insert into task values(3,"OOPS","Not Started","2021-08-25","2021-08-30");
+insert into task values(3,"OOPS","Completed","2021-08-25","2021-08-30");
 
 insert into notes values(10,"Conditional and Iteration","2021-08-02","2021-08-03",1);
 insert into notes values(11,"Arrays and String","2021-08-04","2021-08-05",1);
